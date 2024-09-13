@@ -10,12 +10,15 @@ public class PinCodeRegex {
         if (!Character.isDigit(pinCode.charAt(0))) {
             return false;
         }
+        if (!Character.isDigit(pinCode.charAt(pinCode.length() - 1))) {
+            return false;
+        }
         Pattern pattern = Pattern.compile(PINCODE_PATTERN);
         Matcher matcher = pattern.matcher(pinCode);
         return matcher.matches();
     }
     public static void main(String[] args) {
-        String pincodeToValidate = "A400088";
+        String pincodeToValidate = "400088B";
 
         if(validatePinCode(pincodeToValidate)){
             System.out.println(pincodeToValidate+ " is valid pincode.");
