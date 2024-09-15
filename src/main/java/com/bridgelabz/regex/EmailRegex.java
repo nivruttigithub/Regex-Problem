@@ -17,7 +17,10 @@ public class EmailRegex {
     // UC4 : Lets handle optional part i.e. xyz in abc.xyz@bridgelabz.co.in
     //      NOTE : make sure only the following are valid special characters _,+, -,. proceeding to xyz.
 
-    private static final String EMAIL_PATTERN = "^[a-z]{3}([_+\\-.][a-z]+)?@[a-z]{10}\\.[a-z]{2}.*$";
+    // UC5 : Finally lets close the expression with supporting optional parts.
+    // Note: Top Level Domains (TLD) in the last part is the optional country code and it is 2 characters only.
+
+    private static final String EMAIL_PATTERN = "^[a-z]{3}([_+\\-.][a-z]+)?@[a-z]{10}\\.[a-z]{2}(\\.[a-z]{2})?$";
 
     public static boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
@@ -25,17 +28,15 @@ public class EmailRegex {
         return matcher.matches();
     }
     public static void main(String[] args) {
-        String emailToValidate1 = "abc.v@bridgelabz.co.in";         // Valid, no xyz part
-        String emailToValidate2 = "abc.xyz@bridgelabz.co.in";     // Valid, with xyz part
-        String emailToValidate3 = "abc+xyz@bridgelabz.co.in";     // Valid, with xyz part and +
-        String emailToValidate4 = "abc-xyz@bridgelabz.co.in";     // Valid, with xyz part and -
-        String emailToValidate5 = "abc#xyz@bridgelabz.co.in";     // Invalid, # is not allowed
+        String emailToValidate1 = "abc@bridgelabz.co.in";     // Valid, with optional country code
+        String emailToValidate2 = "abc.xyz@bridgelabz.co";     // Valid, without country code
+        String emailToValidate3 = "abc.xyz@bridgelabz.co.uk";   // Valid, with optional country code
+        String emailToValidate4 = "abc.xyz@bridgelabz";        // InValid, missing dot and TLD after domain
 
         // Validate the emails
         System.out.println(emailToValidate1 + " = " + (validateEmail(emailToValidate1) ? "Valid" : "Invalid"));
         System.out.println(emailToValidate2 + " = " + (validateEmail(emailToValidate2) ? "Valid" : "Invalid"));
         System.out.println(emailToValidate3 + " = " + (validateEmail(emailToValidate3) ? "Valid" : "Invalid"));
         System.out.println(emailToValidate4 + " = " + (validateEmail(emailToValidate4) ? "Valid" : "Invalid"));
-        System.out.println(emailToValidate5 + " = " + (validateEmail(emailToValidate5) ? "Valid" : "Invalid"));
     }
 }
